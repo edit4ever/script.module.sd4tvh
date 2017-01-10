@@ -129,7 +129,8 @@ def remove_provider():
 
 @plugin.route('/review_channels')
 def review_channels():
-    subprocess.check_call("/storage/.kodi/addons/script.module.sd4tvh/sd4tvh_channels.sh")
+    xbmcgui.Dialog().notification(xbmcaddon.Addon().getAddonInfo('name'), 'Updating channels config file...', get_icon_path('tv'), 3000)
+    subprocess.check_call("/storage/.kodi/addons/script.module.sd4tvh/bin/sd4tvh_channels")
     user = plugin.get_setting('sd.username')
     pass1 = plugin.get_setting('sd.password')
     passw = hashlib.sha1(pass1.encode('utf-8')).hexdigest()

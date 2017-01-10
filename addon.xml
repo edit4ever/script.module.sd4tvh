@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="script.module.sd4tvh"
        name="Schedules Direct for Tvheadend"
-       version="0.2"
+       version="0.2.1"
        provider-name="edit4ever">
   <requires>
     <import addon="xbmc.python" version="2.20.0"/>
