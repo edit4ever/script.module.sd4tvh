@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<strings>
+
+	<!-- sd4tvh -->
+	<string id="32000">Schedules Direct Login</string>
+	<string id="32010">Schedules Direct Username</string>
+	<string id="32020">Schedules Direct Password</string>
+	<string id="32100">Options</string>
+	<string id="32110">Number of Days to Download</string>
+	<string id="32120">HDHomerun Channel Filter</string>
+	<string id="32121">None</string>
+	<string id="32122">Discover</string>
+	<string id="32123">IP</string>
+	<string id="32123">HDHomerun IP</string>
+	<string id="32130">File Based Channel Filter</string>
+
+</strings>

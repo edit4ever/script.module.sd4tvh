@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+  <category label="32000">
+    <setting label="32010"  type="text"  id="sd.username"  default=""/>
+    <setting label="32020"  type="text"  id="sd.password"  default=""/>
+  </category>
+  <category label="32100">
+    <setting label="32110" type="slider" id="days" default="3" range="0,1,14" option="int"/>
+    <setting label="32120" type="select" id="homerun" lvalues="32121|32122|32123"/>
+    <setting label="32125" type="ipaddress" id="homerunip" visible="eq(-1,IP)"/>
+    <setting label="32130" type="bool" id="cfilter" default="true"/>
+  </category>
+</settings>
