@@ -105,23 +105,26 @@ def remove_provider():
     if len(lineup_list) == 0:
         return
     lineups = []
+    lineupsn = []
+    lineupsl = []
+    lineupso = []
+    for lineupname in lineup_list:
+        lineupsn.append(lineupname['name'])
+    for lineuploc in lineup_list:
+        lineupsl.append(lineuploc['location'])
     for lineup in lineup_list:
-        lineups.append(lineup['name'])
-    lineups = sorted(lineups, key=lambda s: s.lower())
+        lineupso.append(lineup['lineup'])
+    lineupsnew = zip(lineupsn, lineupsl)
+    lineups = [ "%s - %s" % x for x in lineupsnew ]
     sel = xbmcgui.Dialog().select('Current lineups - Click to delete...', list=lineups)
     if sel >= 0:
-        name = lineups[sel]
-        sel_lineup = [x for x in lineup_list if x["name"] == name]
-        if len(sel_lineup) > 0:
-            sel_lineup = sel_lineup[0]
+        name = lineupsn[sel]
             yes_no = xbmcgui.Dialog().yesno(xbmcaddon.Addon().getAddonInfo('name'),
                                             '[COLOR red]Deleting a lineup will remove all channels associated with it![/COLOR]',
                                             '\nDo you want to continue?')
             if yes_no:
                 xbmcgui.Dialog().notification(xbmcaddon.Addon().getAddonInfo('name'), 'Deleting lineup...', get_icon_path('minus'), 3000)
                 if sd.delete_lineup(sel_lineup['lineup']):
-                    #TODO
-                    #database.deleteLineup(close, sel_lineup['lineup'])
                     xbmcgui.Dialog().notification(xbmcaddon.Addon().getAddonInfo('name'), 'Lineup "%s" deleted' % name, get_icon_path('minus'), 5000)
                 else:
                     raise SourceException('Lineup could not be deleted! '
