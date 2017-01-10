@@ -119,6 +119,9 @@ def remove_provider():
     sel = xbmcgui.Dialog().select('Current lineups - Click to delete...', list=lineups)
     if sel >= 0:
         name = lineupsn[sel]
+        sel_lineup = [x for x in lineup_list if x["name"] == name]
+        if len(sel_lineup) > 0:
+            sel_lineup = sel_lineup[0]
             yes_no = xbmcgui.Dialog().yesno(xbmcaddon.Addon().getAddonInfo('name'),
                                             '[COLOR red]Deleting a lineup will remove all channels associated with it![/COLOR]',
                                             '\nDo you want to continue?')
