@@ -7,7 +7,9 @@ from cache import SchedulesDirectCache
 from common import Status, LineupMap, LineupMapList, ScheduleList, Headend, Lineup, ChangeLineupResponse, ServiceRegion
 import logging
 import hashlib
-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 class SchedulesDirect(object):
     def __init__(self, username, password, cache_path="./sdcache.db"):
