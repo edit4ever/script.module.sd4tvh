@@ -136,7 +136,7 @@ def remove_provider():
 @plugin.route('/review_channels')
 def review_channels():
     xbmcgui.Dialog().notification(xbmcaddon.Addon().getAddonInfo('name'), 'Updating channels config file...', get_icon_path('tv'), 3000)
-    subprocess.check_call("/storage/.kodi/addons/script.module.sd4tvh/bin/sd4tvh_channels")
+    subprocess.check_call(u".kodi/addons/script.module.sd4tvh/bin/sd4tvh_channels")
     user = plugin.get_setting('sd.username')
     pass1 = plugin.get_setting('sd.password')
     passw = hashlib.sha1(pass1.encode('utf-8')).hexdigest()
@@ -160,7 +160,7 @@ def review_channels():
     sel_line = xbmcgui.Dialog().select('Select Schedules Direct Lineup - Click to Edit Channels...', list=lineups)
     if sel_line >= 0:
         parser = ConfigParser.ConfigParser(allow_no_value=True)
-        parser.readfp(open(u"/storage/.kodi/userdata/addon_data/script.module.sd4tvh/filter.cfg"))
+        parser.readfp(open(u".kodi/userdata/addon_data/script.module.sd4tvh/filter.cfg"))
         lineup_longname = lineups[sel_line]
         lineup_name = lineupso[sel_line]
         lineup_new = lineup_name + "-new"
@@ -321,7 +321,7 @@ def review_channels():
                 parser.set(lineup_exc, channel_num_ret_exc, channel_nm_ret_exc)
                 parser.remove_option('temp-exc', channel_num_ret_exc)
             parser.remove_section('temp-exc')
-        with open(u"/storage/.kodi/userdata/addon_data/script.module.sd4tvh/filter.cfg", 'w') as fp:
+        with open(u".kodi/userdata/addon_data/script.module.sd4tvh/filter.cfg", 'w') as fp:
             fp.write("; sd4tvh channel filter\n")
             fp.write("; \n")
             fp.write("; Move channels to include under [<headend>-include].\n")

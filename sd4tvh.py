@@ -388,7 +388,7 @@ def main():
     optional_args.add_argument(u"--filter", dest=u"filter", action="store_true", default=False, help=u"Enable file-based channel filtering.")
     optional_args.add_argument(u"--filter-path", dest=u"filter_path", default=u"./filter.cfg", help=u"File path for channel filter configuration.")
     optional_args.add_argument(u"--channels", dest=u"channels", action="store_true", default=False, help=u"Create channel filter file.")
-    optional_args.add_argument(u"--channels-path", dest=u"channels_path", default=u"/storage/.kodi/userdata/addon_data/script.module.sd4tvh/filter.cfg", help=u"File path for channel filter configuration.")
+    optional_args.add_argument(u"--channels-path", dest=u"channels_path", default=u".kodi/userdata/addon_data/script.module.sd4tvh/filter.cfg", help=u"File path for channel filter configuration.")
 
     args = parser.parse_args()
 
@@ -403,5 +403,5 @@ def main():
         app.process()
 
 if __name__ == "__main__":
-    logging.config.fileConfig(u"/storage/.kodi/addons/script.module.sd4tvh/logging.cfg", disable_existing_loggers=True)
+#    logging.config.fileConfig(u".kodi/addons/script.module.sd4tvh/logging.cfg", disable_existing_loggers=True)
     main()
