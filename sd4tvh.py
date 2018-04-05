@@ -403,5 +403,5 @@ def main():
         app.process()
 
 if __name__ == "__main__":
-    logging.config.fileConfig(u".kodi/addons/script.module.sd4tvh/logging.cfg", disable_existing_loggers=True)
+#    logging.config.fileConfig(u".kodi/addons/script.module.sd4tvh/logging.cfg", disable_existing_loggers=True)
     main()
