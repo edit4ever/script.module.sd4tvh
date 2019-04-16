@@ -74,10 +74,13 @@ def add_provider():
             if keyb.isConfirmed():
                 lineup_list = sd.get_lineups(country=sel_country["shortName"], postcode=keyb.getText())
                 lineups = []
+                location = []
                 saved_lineups = sd.lineups
                 for lineup in lineup_list:
                     if lineup['lineup'] not in saved_lineups:
-                        lineups.append(lineup['name'])
+                        lineupNameLoc = lineup['name'] + " -- " + lineup['location']
+                        lineup['name'] = lineupNameLoc
+                        lineups.append(lineupNameLoc)
                 lineups = sorted(lineups, key=lambda s: s.lower())
                 sel = xbmcgui.Dialog().select('Select Schedules Direct Lineup (not showing already subscribed)',
                                               list=lineups)
@@ -115,7 +118,7 @@ def remove_provider():
     for lineup in lineup_list:
         lineupso.append(lineup['lineup'])
     lineupsnew = zip(lineupsn, lineupsl)
-    lineups = [ "%s - %s" % x for x in lineupsnew ]
+    lineups = [ "%s -- %s" % x for x in lineupsnew ]
     sel = xbmcgui.Dialog().select('Current lineups - Click to delete...', list=lineups)
     if sel >= 0:
         name = lineupsn[sel]

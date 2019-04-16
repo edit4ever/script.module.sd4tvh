@@ -160,8 +160,13 @@ class SdAPI(object):
         lineups = []
         for item in data:
             if "lineups" in item:
+                lineupDict = {}
                 for lineup in item['lineups']:
-                    lineups.append(lineup)
+                    lineupDict['name'] = lineup['name']
+                    lineupDict['lineup'] = lineup['lineup']
+                    lineupDict['uri'] = lineup['uri']
+                    lineupDict['location'] = item['location']
+                    lineups.append(lineupDict)
         return lineups
 
     def get_stations(self, lineup):
