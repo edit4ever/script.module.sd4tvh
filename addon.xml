@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="script.module.sd4tvh"
        name="Schedules Direct for Tvheadend"
-       version="0.3.0"
+       version="0.3.1"
        provider-name="edit4ever">
   <requires>
     <import addon="xbmc.python" version="2.20.0"/>
@@ -15,7 +15,7 @@
   <extension point="xbmc.addon.metadata">
     <summary>Schedules Direct for Tvheadend (sd4tvh)</summary>
     <description>sd4tvh is a schedules direct xmltv grabber using the JSON API for use with the tvheadend backend. From the Kodi interface you can manage Schedules Direct lineups and select channels to include in the xmltv download.</description>
-    <disclaimer>Copyright (C) 2017 edit4ever - edit4ever@gmail.com</disclaimer>
+    <disclaimer>Adapted by edit4ever - edit4ever@gmail.com</disclaimer>
     <disclaimer>Includes work derived and modified from:</disclaimer>
     <disclaimer>    Tommy Winther - https://github.com/twinther</disclaimer>
     <disclaimer>    Thomas Geppert - https://github.com/bluezed</disclaimer>

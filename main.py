@@ -108,20 +108,14 @@ def remove_provider():
     if len(lineup_list) == 0:
         return
     lineups = []
-    lineupsn = []
-    lineupsl = []
-    lineupso = []
     for lineupname in lineup_list:
-        lineupsn.append(lineupname['name'])
-    for lineuploc in lineup_list:
-        lineupsl.append(lineuploc['location'])
-    for lineup in lineup_list:
-        lineupso.append(lineup['lineup'])
-    lineupsnew = zip(lineupsn, lineupsl)
-    lineups = [ "%s -- %s" % x for x in lineupsnew ]
+        lineupNameLoc = lineupname['name'] + " -- " + lineupname['location']
+        lineupname['name'] = lineupNameLoc
+        lineups.append(lineupNameLoc)
+    lineups = sorted(lineups, key=lambda s: s.lower())
     sel = xbmcgui.Dialog().select('Current lineups - Click to delete...', list=lineups)
     if sel >= 0:
-        name = lineupsn[sel]
+        name = lineups[sel]
         sel_lineup = [x for x in lineup_list if x["name"] == name]
         if len(sel_lineup) > 0:
             sel_lineup = sel_lineup[0]
