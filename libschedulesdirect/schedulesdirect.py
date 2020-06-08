@@ -160,7 +160,7 @@ class SchedulesDirect(object):
             artwork_errors = (art for art in artwork if isinstance(art[u"data"], dict))
 
             for artwork_error in artwork_errors:
-                self._logger.warn(u"Artwork for %s returned %s %s", artwork_error["programID"], artwork_error["data"]["errorCode"], artwork_error["data"]["errorMessage"])
+                self._logger.warn(u"Artwork for %s returned %s %s", artwork_error["programID"], artwork_error["data"]["code"], artwork_error["data"]["message"])
 
             self._logger.info(u"Adding program artwork to cache.")
             self._cache.add_artwork(art for art in artwork if isinstance(art[u"data"], list))

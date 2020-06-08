@@ -40,6 +40,50 @@ def atoi(text):
 def natural_keys(text):
     return [ atoi(c) for c in re.split('(\d+)', text) ]
 
+def run_sd4tvh_channels():
+    # Populate filter.cfg channels with 3 steps:
+    # - Create, run, and delete temporary script file "tmp_sd4tvh_channels".
+    #
+    # Prepare credentials, file paths, etc.
+    user  = plugin.get_setting('sd.username')
+    pass1 = plugin.get_setting('sd.password')
+    sd4tvh_exe = xbmc.translatePath(u"special://home/addons/script.module.sd4tvh/sd4tvh.py")
+    script_dir = xbmc.translatePath(u"special://userdata/addon_data/script.module.sd4tvh/")
+    script_exe = script_dir + 'tmp_sd4tvh_channels'
+    filter_cfg = script_dir + 'filter.cfg'
+    command_line = 'python ' + sd4tvh_exe                        \
+                 + ' -u "' + user + '"'                          \
+                 + ' -p "' + pass1 + '"'                         \
+                 + ' --channels --channels-path ' + filter_cfg   \
+                 + ' --filter --filter-path ' + filter_cfg       \
+                 + ' > sd4tvh.log 2>&1'
+    # Create temp shell script file to execute sd4tvh.py with arguments
+    with open(script_exe, 'w+') as fp:
+        fp.write('#!/bin/sh\n')
+        fp.write('# NOTE: Temporary file created by script.module.sd4tvh add-on\n.\n')
+        fp.write('#   This file created, invoked, and normally deleted by main.py')
+        fp.write('. /etc/profile\n\n')
+        fp.write('CD=`pwd`\n')
+        fp.write('cd ' + script_dir + '\n\n')
+        fp.write(command_line + '\n')
+        fp.write('RC=$?\n\n')
+        fp.write('cd $CD\n')
+        fp.write('exit $RC\n')
+        fp.close()
+    # Make temp shell script file executable
+    os.chmod(script_exe, 0o755)
+    # Run temp shell script
+    rc = 0
+    try:
+        subprocess.check_call(script_exe)
+    except subprocess.CalledProcessError as e:
+        rc = e.returncode
+        xbmc.log('[sd4tvh] Script tmp_sd4tvh_channels exited with return code ' + str(rc) + '.', xbmc.LOGNOTICE)
+        xbmc.log('[sd4tvh] Check log file: ' + script_dir + 'sd4tvh.log', xbmc.LOGNOTICE)
+    # Delete temp shell script under normal execution
+    if (rc == 0) and os.path.isfile(script_exe):
+        os.unlink(script_exe)
+    return rc
 
 @plugin.route('/add_provider')
 def add_provider():
@@ -133,7 +177,8 @@ def remove_provider():
 @plugin.route('/review_channels')
 def review_channels():
     xbmcgui.Dialog().notification(xbmcaddon.Addon().getAddonInfo('name'), 'Updating channels config file...', get_icon_path('tv'), 3000)
-    subprocess.check_call(u".kodi/addons/script.module.sd4tvh/bin/sd4tvh_channels")
+    if run_sd4tvh_channels() != 0:
+        xbmcgui.Dialog().notification(xbmcaddon.Addon().getAddonInfo('name'), 'Failed filter.cfg update.  Check Kodi log.', get_icon_path('tv'), 3000)
     user = plugin.get_setting('sd.username')
     pass1 = plugin.get_setting('sd.password')
     passw = hashlib.sha1(pass1.encode('utf-8')).hexdigest()
@@ -157,7 +202,7 @@ def review_channels():
     sel_line = xbmcgui.Dialog().select('Select Schedules Direct Lineup - Click to Edit Channels...', list=lineups)
     if sel_line >= 0:
         parser = ConfigParser.ConfigParser(allow_no_value=True)
-        parser.readfp(open(u".kodi/userdata/addon_data/script.module.sd4tvh/filter.cfg"))
+        parser.readfp(open(xbmc.translatePath(u"special://userdata/addon_data/script.module.sd4tvh/filter.cfg")))
         lineup_longname = lineups[sel_line]
         lineup_name = lineupso[sel_line]
         lineup_new = lineup_name + "-new"
@@ -318,7 +363,7 @@ def review_channels():
                 parser.set(lineup_exc, channel_num_ret_exc, channel_nm_ret_exc)
                 parser.remove_option('temp-exc', channel_num_ret_exc)
             parser.remove_section('temp-exc')
-        with open(u".kodi/userdata/addon_data/script.module.sd4tvh/filter.cfg", 'w') as fp:
+        with open(xbmc.translatePath(u"special://userdata/addon_data/script.module.sd4tvh/filter.cfg"), 'w') as fp:
             fp.write("; sd4tvh channel filter\n")
             fp.write("; \n")
             fp.write("; Move channels to include under [<headend>-include].\n")
