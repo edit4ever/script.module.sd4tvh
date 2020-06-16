@@ -4,6 +4,7 @@
 import argparse
 import logging
 import logging.config
+import os
 from xmltv import XmltvChannel, XmltvProgramme, XmltvWriter
 from libschedulesdirect.common import Status, Program, Broadcast, Channel, ProgramArtwork, StationLogo
 from libschedulesdirect.schedulesdirect import SchedulesDirect
@@ -107,6 +108,7 @@ class sd4tvh:
             channel_filter.add_channel_filter(cf)
 
         station_ids = [station.station_id for station in lineup_map_list.unique_stations(channel_filter)]
+        self._logger.info(u"Station ids found: %s", len(station_ids))
 
         self._logger.info(u"Getting schedule hashes...")
         schedule_hash_list = self._sd.get_schedule_hash_list(station_ids)
@@ -403,5 +405,7 @@ def main():
         app.process()
 
 if __name__ == "__main__":
-#    logging.config.fileConfig(u".kodi/addons/script.module.sd4tvh/logging.cfg", disable_existing_loggers=True)
+    logging_cfg = u"/storage/.kodi/addons/script.module.sd4tvh/logging.cfg"
+    if os.path.isfile(logging_cfg):
+        logging.config.fileConfig(logging_cfg, disable_existing_loggers=True)
     main()
