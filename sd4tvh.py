@@ -108,6 +108,7 @@ class sd4tvh:
             channel_filter.add_channel_filter(cf)
 
         station_ids = [station.station_id for station in lineup_map_list.unique_stations(channel_filter)]
+        self._logger.info(u"Station ids found: %s", len(station_ids))
 
         self._logger.info(u"Getting schedule hashes...")
         schedule_hash_list = self._sd.get_schedule_hash_list(station_ids)
