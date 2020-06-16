@@ -4,6 +4,7 @@
 import argparse
 import logging
 import logging.config
+import os
 from xmltv import XmltvChannel, XmltvProgramme, XmltvWriter
 from libschedulesdirect.common import Status, Program, Broadcast, Channel, ProgramArtwork, StationLogo
 from libschedulesdirect.schedulesdirect import SchedulesDirect
@@ -403,5 +404,7 @@ def main():
         app.process()
 
 if __name__ == "__main__":
-#    logging.config.fileConfig(u".kodi/addons/script.module.sd4tvh/logging.cfg", disable_existing_loggers=True)
+    logging_cfg = u"/storage/.kodi/addons/script.module.sd4tvh/logging.cfg"
+    if os.path.isfile(logging_cfg):
+        logging.config.fileConfig(logging_cfg, disable_existing_loggers=True)
     main()
